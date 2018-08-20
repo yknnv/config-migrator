@@ -1,7 +1,9 @@
 <?php
 
-namespace ConfigMigrator\Handlers;
+namespace Yknnv\ConfigMigrator\Handlers;
 
+
+use Yknnv\ConfigMigrator\Tools\File;
 
 abstract class Handler
 {
@@ -11,12 +13,19 @@ abstract class Handler
     protected $value;
     protected $handler;
 
+    /**
+     * Handler constructor.
+     * @param $command
+     * @param $name
+     * @param $value
+     * @throws \ReflectionException
+     */
     public function __construct($command, $name, $value)
     {
         $this->command = $command;
         $this->name = $name;
         $this->value = $value;
-        $this->file = new \ConfigMigrator\Tools\File();
+        $this->file = new File();
         $this->handler = (new \ReflectionClass($this))->getShortName();
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace ConfigMigrator\Handlers;
+namespace Yknnv\ConfigMigrator\Handlers;
 
 
 class Php extends Handler

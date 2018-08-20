@@ -1,6 +1,6 @@
 <?php
 
-namespace ConfigMigrator\Tools;
+namespace Yknnv\ConfigMigrator\Tools;
 
 
 class File

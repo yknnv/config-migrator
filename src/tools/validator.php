@@ -1,7 +1,8 @@
 <?php
 
-namespace ConfigMigrator\Tools;
+namespace Yknnv\ConfigMigrator\Tools;
 
+use Yknnv\ConfigMigrator\Exception\ConfigException;
 
 class Validator
 {
@@ -21,28 +22,28 @@ class Validator
      * @param $command
      * @param $name
      * @param $value
-     * @return bool
-     * @throws \Exception
+     * @throws ConfigException
      */
     public function validate($handler, $command, $name, $value){
-
-        return ($this->validateHandler($handler) && $this->validateCommand($command)
-            && $this->validateName($name) && $this->validateValue($value));
+        $this->validateHandler($handler);
+        $this->validateCommand($command);
+        $this->validateName($name);
+        $this->validateValue($value);
     }
 
     /**
      * Validate handler
      * @param $handler
      * @return bool
-     * @throws \Exception
+     * @throws ConfigException
      */
     private function validateHandler($handler){
 
         $lang = ucfirst($handler);
-        $class = 'ConfigMigrator\Handlers\\'.$handler;
+        $class = 'Yknnv\\ConfigMigrator\Handlers\\'.$handler;
 
         if(!$isExistClass = class_exists($class))
-            throw new \Exception('Language '.$handler.' not found in available languages');
+            throw new ConfigException("Handler $handler not found in available handlers \n");
 
         return true;
     }
@@ -50,27 +51,30 @@ class Validator
     /**
      * Validate command
      * @param $command
-     * @return bool
+     * @throws ConfigException
      */
     private function validateCommand($command){
-        return in_array(strtolower($command), $this->availableCommands);
+        if(!in_array(strtolower($command), $this->availableCommands))
+            throw new ConfigException("Command $command not found in available commands \n");
     }
 
     /**
      * Validate name
      * @param $name
-     * @return bool
+     * @throws ConfigException
      */
     private function validateName($name){
-        return (is_string($name) && strlen($name) > 0);
+        if(!(is_string($name) && strlen($name) > 0))
+            throw new ConfigException("Name $name is not correct \n");
     }
 
     /**
      * Validate value
      * @param $value
-     * @return bool
+     * @throws ConfigException
      */
     private function validateValue($value){
-        return !is_null($value);
+        if(is_null($value))
+            throw new ConfigException("Value $value not correct \n");
     }
 }
