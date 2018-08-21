@@ -1,5 +1,5 @@
 {
-    "name": "yknnv/composer-migrator",
+    "name": "yknnv/config-migrator",
     "type": "library",
     "license": "MIT",
     "authors": [
