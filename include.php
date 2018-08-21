@@ -1,6 +1,6 @@
 <?php
-include_once('src/handlers/handler.php');
-include_once('src/handlers/php.php');
-include_once('src/tools/validator.php');
-include_once('src/tools/file.php');
+include_once('src/Handlers/Handler.php');
+include_once('src/Handlers/Php.php');
+include_once('src/Tools/Validator.php');
+include_once('src/Tools/File.php');
 include_once('src/Exception/ConfigException.php');

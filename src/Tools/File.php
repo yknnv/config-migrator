@@ -3,34 +3,43 @@
 namespace Yknnv\ConfigMigrator\Tools;
 
 
+use Yknnv\ConfigMigrator\Exception\ConfigException;
+
 class File
 {
-    protected $fileName = '/var/www/otus/config.migrator/config.json'; //TODO: add config to path
+    protected $fileName = 'config-migrate.json';
 
     protected $fileHandler;
 
     protected $fileData;
 
 
+    /**
+     * File constructor.
+     * @throws ConfigException
+     */
     public function __construct()
     {
         $this->fileHandler = fopen($this->fileName, 'c+');
+        if(!$this->fileHandler)
+            throw new ConfigException("Cannot read or create config file \n");
+
         $this->fileData = fread($this->fileHandler, filesize($this->fileName) ? filesize($this->fileName) :  1);
         if(!$this->fileData)
             $this->fileData = '';
         $this->fileData = json_decode($this->fileData, true);
     }
 
-    public function add($params = []){
-        $this->fileData[$params['handler']][$params['name']] = $params['value'];
+    public function add($handler, $name, $value){
+        $this->fileData[$handler][$name] = $value;
     }
 
-    public function delete($params = []){
-        unset($this->fileData[$params['handler']][$params['name']]);
+    public function delete($handler, $name){
+        unset($this->fileData[$handler][$name]);
     }
 
-    public function update($params = []){
-        $this->fileData[$params['handler']] = [$params['name'] => $params['value']];
+    public function update($handler, $name, $value){
+        $this->fileData[$handler] = [$name => $value];
     }
 
     public function __destruct()

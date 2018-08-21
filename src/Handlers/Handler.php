@@ -20,7 +20,7 @@ abstract class Handler
      * @param $value
      * @throws \ReflectionException
      */
-    public function __construct($command, $name, $value)
+    public function __construct(string $command, string $name, $value)
     {
         $this->command = $command;
         $this->name = $name;
@@ -42,7 +42,7 @@ abstract class Handler
      * @param $value
      */
     protected function add($name, $value){
-        $this->file->{"$this->command"}(['handler' => $this->handler, 'name' => $name, 'value' => $value]);
+        $this->file->{"$this->command"}($this->handler, $name, $value);
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class Handler
      * @param $value
      */
     protected function update($name, $value){
-        $this->file->{"$this->command"}(['handler' => $this->handler, 'name' => $name, 'value' => $value]);
+        $this->file->{"$this->command"}($this->handler, $name, $value);
     }
 
     /**
@@ -59,6 +59,6 @@ abstract class Handler
      * @param $name
      */
     protected function delete($name){
-        $this->file->{"$this->command"}(['handler' => $this->handler, 'name' => $name]);
+        $this->file->{"$this->command"}([$this->handler, $name]);
     }
 }

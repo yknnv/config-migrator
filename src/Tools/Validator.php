@@ -18,54 +18,65 @@ class Validator
 
     /**
      * Execute validator
-     * @param $handler
-     * @param $command
-     * @param $name
+     * @param string $handler
+     * @param string $command
+     * @param string $name
      * @param $value
      * @throws ConfigException
      */
-    public function validate($handler, $command, $name, $value){
-        $this->validateHandler($handler);
-        $this->validateCommand($command);
-        $this->validateName($name);
-        $this->validateValue($value);
+    public function validate(string &$handler, string &$command, string &$name, &$value)
+    {
+        $handler = $this->validateHandler($handler);
+        $command = $this->validateCommand($command);
+        $name    = $this->validateName($name);
+        $value   = $this->validateValue($value);
     }
 
     /**
      * Validate handler
-     * @param $handler
-     * @return bool
+     * @param string $handler
+     * @return string
      * @throws ConfigException
      */
-    private function validateHandler($handler){
+    private function validateHandler(string $handler): string
+    {
 
-        $lang = ucfirst($handler);
+        $handler = ucfirst($handler);
         $class = 'Yknnv\\ConfigMigrator\Handlers\\'.$handler;
 
         if(!$isExistClass = class_exists($class))
-            throw new ConfigException("Handler $handler not found in available handlers \n");
+            throw new ConfigException("Handler $handler not found in available Handlers \n");
 
-        return true;
+        return $handler;
+
     }
 
     /**
      * Validate command
-     * @param $command
+     * @param string $command
+     * @return string
      * @throws ConfigException
      */
-    private function validateCommand($command){
+    private function validateCommand(string $command): string
+    {
         if(!in_array(strtolower($command), $this->availableCommands))
             throw new ConfigException("Command $command not found in available commands \n");
+
+        return trim($command);
     }
 
     /**
      * Validate name
-     * @param $name
+     * @param string $name
+     * @return string
      * @throws ConfigException
      */
-    private function validateName($name){
+    private function validateName(string $name): string
+    {
         if(!(is_string($name) && strlen($name) > 0))
             throw new ConfigException("Name $name is not correct \n");
+
+        return trim($name);
     }
 
     /**
@@ -73,8 +84,11 @@ class Validator
      * @param $value
      * @throws ConfigException
      */
-    private function validateValue($value){
+    private function validateValue($value)
+    {
         if(is_null($value))
             throw new ConfigException("Value $value not correct \n");
+
+        return $value;
     }
 }
