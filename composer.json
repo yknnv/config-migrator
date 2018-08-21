@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Yknnv\ConfigMigrator\\": "src"
+            "Yknnv\\ConfigMigrator\\": "src"
         }
     },
     "bin": ["bin/run"]
